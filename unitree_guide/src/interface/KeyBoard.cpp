@@ -77,6 +77,9 @@ void KeyBoard::changeValue(){
     case 'j':case 'J':
         userValue.rx = max<float>(userValue.rx-sensitivityRight, -1.0);
         break;
+    case 'm':case 'M':
+        std::cout << "m, M was pushed" << std::endl;
+        break;
     default:
         break;
     }
