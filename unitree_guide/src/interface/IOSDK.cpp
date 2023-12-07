@@ -4,6 +4,7 @@
 #ifdef COMPILE_WITH_REAL_ROBOT
 
 #include "interface/IOSDK.h"
+#include "interface/KeyBoard.h"
 #include "interface/WirelessHandle.h"
 #include <stdio.h>
 
@@ -11,7 +12,8 @@
 IOSDK::IOSDK():_safe(UNITREE_LEGGED_SDK::LeggedType::Aliengo), _udp(UNITREE_LEGGED_SDK::LOWLEVEL, 8090, "192.168.123.10", 8007){
     std::cout << "The control interface for real robot" << std::endl;
     _udp.InitCmdData(_lowCmd);
-    cmdPanel = new WirelessHandle();
+    // cmdPanel = new WirelessHandle();
+    cmdPanel = new KeyBoard();
 
 #ifdef COMPILE_WITH_MOVE_BASE
     _pub = _nh.advertise<sensor_msgs::JointState>("/realRobot/joint_states", 20);
