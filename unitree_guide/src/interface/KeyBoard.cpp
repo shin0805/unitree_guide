@@ -42,6 +42,10 @@ UserCommand KeyBoard::checkCmd(){
         return UserCommand::L1_A;
     case '8':
         return UserCommand::L1_Y;
+    case 'h':case 'H':
+        return UserCommand::HOLD;
+    case 'r':case 'R':
+        return UserCommand::RELEASE;
     case ' ':
         userValue.setZero();
         return UserCommand::NONE;
@@ -64,7 +68,6 @@ void KeyBoard::changeValue(){
     case 'a':case 'A':
         userValue.lx = max<float>(userValue.lx-sensitivityLeft, -1.0);
         break;
-
     case 'i':case 'I':
         userValue.ry = min<float>(userValue.ry+sensitivityRight, 1.0);
         break;
@@ -76,9 +79,6 @@ void KeyBoard::changeValue(){
         break;
     case 'j':case 'J':
         userValue.rx = max<float>(userValue.rx-sensitivityRight, -1.0);
-        break;
-    case 'm':case 'M':
-        std::cout << "m, M was pushed" << std::endl;
         break;
     default:
         break;
