@@ -15,6 +15,12 @@ IOSDK::IOSDK():_safe(UNITREE_LEGGED_SDK::LeggedType::Aliengo), _udp(UNITREE_LEGG
     // cmdPanel = new WirelessHandle();
     cmdPanel = new KeyBoard();
 
+    // start subscriber
+    std::cout << "start subscriber" << std::endl;
+    ros::AsyncSpinner subSpinner(1); // one threads
+    subSpinner.start();
+    usleep(300000);     //wait for subscribers start
+
 #ifdef COMPILE_WITH_MOVE_BASE
     _pub = _nh.advertise<sensor_msgs::JointState>("/realRobot/joint_states", 20);
     _joint_state.name.resize(12);
@@ -91,6 +97,7 @@ void IOSDK::sendRecv(const LowlevelCmd *cmd, LowlevelState *state){
 
     _pub.publish(_joint_state);
 #endif  // COMPILE_WITH_MOVE_BASE
+    ros::spinOnce();
 }
 
 #endif  // COMPILE_WITH_REAL_ROBOT

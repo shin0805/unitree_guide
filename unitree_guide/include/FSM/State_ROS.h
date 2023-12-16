@@ -20,9 +20,9 @@ public:
 
 private:
     ros::NodeHandle _nh;
-    ros::Subscriber _angle_sub = _nh.subscribe("/go1_mani/target_pos", 5, &State_ROS::sub_callback, this);
-    float _targetPos[12] = {0.0, 0.67, -1.3, 0.0, 0.67, -1.3, 
-                            0.0, 0.67, -1.3, 0.0, 0.67, -1.3};
+    ros::Subscriber _angle_sub;
+    float _targetPos[12] = {0.0, 1.5, -2.7, 0.0, 1.5, -2.7, 
+                            0.0, 1.5, -2.7, 0.0, 1.5, -2.7};
     std_msgs::Float32MultiArray _targetMsg;
     float _startPos[12];
     float _duration = 1000;   //steps

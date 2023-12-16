@@ -16,11 +16,27 @@ void State_ROS::sub_callback(const std_msgs::Float32MultiArray::ConstPtr& msg) {
     std::cout << _targetPos[i] << (i == 11 ? "}" : ", ");
   }
   std::cout << std::endl;
-  State_ROS::enter();
+
+  for(int i=0; i<4; i++){
+      if(_ctrlComp->ctrlPlatform == CtrlPlatform::GAZEBO){
+          _lowCmd->setSimStanceGain(i);
+      }
+      else if(_ctrlComp->ctrlPlatform == CtrlPlatform::REALROBOT){
+          _lowCmd->setRealStanceGain(i);
+      }
+      _lowCmd->setZeroDq(i);
+      _lowCmd->setZeroTau(i);
+  }
+  for(int i=0; i<12; i++){
+      _lowCmd->motorCmd[i].q = _lowState->motorState[i].q;
+      _startPos[i] = _lowState->motorState[i].q;
+  }
+  _ctrlComp->setAllStance();
   _percent = 0;
 }
 
 void State_ROS::enter(){
+    _angle_sub = _nh.subscribe("/go1_mani/target_pos", 5, &State_ROS::sub_callback, this);
     for(int i=0; i<4; i++){
         if(_ctrlComp->ctrlPlatform == CtrlPlatform::GAZEBO){
             _lowCmd->setSimStanceGain(i);

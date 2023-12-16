@@ -7,6 +7,8 @@
 #include "interface/IOInterface.h"
 #include "unitree_legged_sdk/unitree_legged_sdk.h"
 
+#include <ros/ros.h>
+
 #ifdef COMPILE_WITH_MOVE_BASE
     #include <ros/ros.h>
     #include <ros/time.h>
