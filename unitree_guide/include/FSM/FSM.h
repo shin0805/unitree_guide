@@ -15,6 +15,7 @@
 #include "FSM/State_StepTest.h"
 #include "FSM/State_Hold.h"
 #include "FSM/State_Release.h"
+#include "FSM/State_ROS.h"
 #include "common/enumClass.h"
 #include "control/CtrlComponents.h"
 #ifdef COMPILE_WITH_MOVE_BASE
@@ -32,6 +33,7 @@ struct FSMStateList{
     State_StepTest *stepTest;
     State_Hold *hold;
     State_Release *release;
+    State_ROS *ros;
 #ifdef COMPILE_WITH_MOVE_BASE
     State_move_base *moveBase;
 #endif  // COMPILE_WITH_MOVE_BASE
@@ -47,6 +49,7 @@ struct FSMStateList{
         delete stepTest;
         delete hold;
         delete release;
+        delete ros;
 #ifdef COMPILE_WITH_MOVE_BASE
         delete moveBase;
 #endif  // COMPILE_WITH_MOVE_BASE

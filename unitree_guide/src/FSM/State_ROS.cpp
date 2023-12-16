@@ -2,12 +2,25 @@
  Copyright (c) 2020-2023, Unitree Robotics.Co.Ltd. All rights reserved.
 ***********************************************************************/
 #include <iostream>
-#include "FSM/State_FixedStand.h"
+#include "FSM/State_ROS.h"
 
-State_FixedStand::State_FixedStand(CtrlComponents *ctrlComp)
-                :FSMState(ctrlComp, FSMStateName::FIXEDSTAND, "fixed stand"){}
+State_ROS::State_ROS(CtrlComponents *ctrlComp)
+                :FSMState(ctrlComp, FSMStateName::ROS, "ros"){
+}
 
-void State_FixedStand::enter(){
+void State_ROS::sub_callback(const std_msgs::Float32MultiArray::ConstPtr& msg) { 
+  std::cout << "[Go1 got message] move to {";
+  _targetMsg = *msg; 
+  for (int i = 0; i < 12; i++) {
+    _targetPos[i] = _targetMsg.data.at(i);
+    std::cout << _targetPos[i] << (i == 11 ? "}" : ", ");
+  }
+  std::cout << std::endl;
+  State_ROS::enter();
+  _percent = 0;
+}
+
+void State_ROS::enter(){
     for(int i=0; i<4; i++){
         if(_ctrlComp->ctrlPlatform == CtrlPlatform::GAZEBO){
             _lowCmd->setSimStanceGain(i);
@@ -25,7 +38,7 @@ void State_FixedStand::enter(){
     _ctrlComp->setAllStance();
 }
 
-void State_FixedStand::run(){
+void State_ROS::run(){
     _percent += (float)1/_duration;
     _percent = _percent > 1 ? 1 : _percent;
     for(int j=0; j<12; j++){
@@ -33,41 +46,28 @@ void State_FixedStand::run(){
     }
 }
 
-void State_FixedStand::exit(){
+void State_ROS::exit(){
     _percent = 0;
+    _angle_sub.shutdown();
 }
 
-FSMStateName State_FixedStand::checkChange(){
+FSMStateName State_ROS::checkChange(){
     if(_lowState->userCmd == UserCommand::L2_B){
         return FSMStateName::PASSIVE;
     }
     else if(_lowState->userCmd == UserCommand::L2_X){
         return FSMStateName::FREESTAND;
     }
-    else if(_lowState->userCmd == UserCommand::START){
-        return FSMStateName::TROTTING;
+    else if(_lowState->userCmd == UserCommand::L2_A){
+        return FSMStateName::FIXEDSTAND;
     }
-    else if(_lowState->userCmd == UserCommand::L1_X){
-        return FSMStateName::BALANCETEST;
-    }
-    else if(_lowState->userCmd == UserCommand::L1_A){
-        return FSMStateName::SWINGTEST;
-    }
-    else if(_lowState->userCmd == UserCommand::L1_Y){
-        return FSMStateName::STEPTEST;
+    else if(_lowState->userCmd == UserCommand::HOLD){
+        return FSMStateName::HOLD;
     }
     else if(_lowState->userCmd == UserCommand::RELEASE){
         return FSMStateName::RELEASE;
     }
-    else if(_lowState->userCmd == UserCommand::ROS){
-        return FSMStateName::ROS;
-    }
-#ifdef COMPILE_WITH_MOVE_BASE
-    else if(_lowState->userCmd == UserCommand::L2_Y){
-        return FSMStateName::MOVE_BASE;
-    }
-#endif  // COMPILE_WITH_MOVE_BASE
     else{
-        return FSMStateName::FIXEDSTAND;
+        return FSMStateName::ROS;
     }
 }

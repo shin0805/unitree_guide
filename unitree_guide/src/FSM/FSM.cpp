@@ -17,6 +17,7 @@ FSM::FSM(CtrlComponents *ctrlComp)
     _stateList.stepTest = new State_StepTest(_ctrlComp);
     _stateList.hold = new State_Hold(_ctrlComp);
     _stateList.release = new State_Release(_ctrlComp);
+    _stateList.ros = new State_ROS(_ctrlComp);
 #ifdef COMPILE_WITH_MOVE_BASE
     _stateList.moveBase = new State_move_base(_ctrlComp);
 #endif  // COMPILE_WITH_MOVE_BASE
@@ -96,6 +97,9 @@ FSMState* FSM::getNextState(FSMStateName stateName){
         break;
     case FSMStateName::RELEASE:
         return _stateList.release;
+        break;
+    case FSMStateName::ROS:
+        return _stateList.ros;
         break;
 #ifdef COMPILE_WITH_MOVE_BASE
     case FSMStateName::MOVE_BASE:

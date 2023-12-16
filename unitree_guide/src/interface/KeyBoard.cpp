@@ -46,6 +46,8 @@ UserCommand KeyBoard::checkCmd(){
         return UserCommand::HOLD;
     case 'r':case 'R':
         return UserCommand::RELEASE;
+    case 'm':case 'M':
+        return UserCommand::ROS;
     case ' ':
         userValue.setZero();
         return UserCommand::NONE;

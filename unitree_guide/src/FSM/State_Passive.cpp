@@ -46,6 +46,9 @@ FSMStateName State_Passive::checkChange(){
     else if(_lowState->userCmd == UserCommand::RELEASE){
         return FSMStateName::RELEASE;
     }
+    else if(_lowState->userCmd == UserCommand::ROS){
+        return FSMStateName::ROS;
+    }
     else{
         return FSMStateName::PASSIVE;
     }

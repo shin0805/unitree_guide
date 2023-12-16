@@ -10,7 +10,7 @@
     <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
     <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
-    <arg name="user_debug" default="false"/>
+    <arg name="user_debug" default="true"/>
     
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find unitree_gazebo)/worlds/$(arg wname).world"/>

@@ -49,6 +49,8 @@ int main(int argc, char **argv)
 
 #ifdef RUN_ROS
     ros::init(argc, argv, "unitree_gazebo_servo");
+#else
+    ros::init(argc, argv, "unitree_go1");
 #endif // RUN_ROS
 
     IOInterface *ioInter;

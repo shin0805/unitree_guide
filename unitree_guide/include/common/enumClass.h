@@ -31,7 +31,8 @@ enum class UserCommand{
     L1_A,       // swingTest
     L1_Y,        // stepTest
     HOLD,
-    RELEASE
+    RELEASE, 
+    ROS
 };
 
 enum class FrameType{
@@ -65,7 +66,8 @@ enum class FSMStateName{
     SWINGTEST,
     STEPTEST,
     HOLD,
-    RELEASE
+    RELEASE,
+    ROS
 };
 
 #endif  // ENUMCLASS_H

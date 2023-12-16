@@ -11,8 +11,7 @@ State_Trotting::State_Trotting(CtrlComponents *ctrlComp)
               _balCtrl(ctrlComp->balCtrl){
     _gait = new GaitGenerator(ctrlComp);
 
-    _gaitHeight = 0.08;
-
+    _gaitHeight = 0.18;
 #ifdef ROBOT_TYPE_Go1
     _Kpp = Vec3(70, 70, 70).asDiagonal();
     _Kdp = Vec3(10, 10, 10).asDiagonal();
